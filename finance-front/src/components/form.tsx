@@ -1,18 +1,7 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
+import { lenguage, tags } from "../const";
 
-const tags = {
-  AMOUNT: ["Amount", "Monto"],
-  DESCRIPTION: ["Description", "Descripción"],
-  CATEGORY: ["Category", "Categoria"],
-  FLOW: ["Flow", "Flujo"],
-  INCOME: ["Income", "Ingreso"],
-  OUTFLOW: ["Outflow", "Gasto"],
-  SUBMIT: ["Submit", "Enviar"],
-};
-
-export const Form = () => {
-  const lenguage = 0;
-
+export const Form = ({ listBody }: { listBody: any[] }) => {
   const transaction = {
     Amount: 0,
     Description: "",
@@ -22,7 +11,8 @@ export const Form = () => {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    console.log(transaction);
+    listBody.push(transaction);
+    console.log(listBody);
   };
 
   const handleChange = (
