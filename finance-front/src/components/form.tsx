@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { lenguage, tags } from "../const";
 
 export const Form = ({ listBody }: { listBody: any[] }) => {
