@@ -12,8 +12,6 @@ type getRaw = {
 };
 
 export const Table = ({ listHead }: { listHead: string[] }) => {
-  const listBody: any[] = [1, 2, 3, 4, 5];
-
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
@@ -29,7 +27,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
 
   return (
     <>
-      <Form listBody={listBody} />
+      <Form />
       <table>
         <thead>
           <tr key={1}>
@@ -44,7 +42,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
               <tr key={JSON.stringify(raw.id)}>
                 <td>{raw.amount}</td>
                 <td>{raw.categoryId}</td>
-                <td>{raw.description.slice(0,10)}</td>
+                <td>{raw.description.slice(0, 17)}</td>
                 <td>{raw.flowId}</td>
               </tr>
             );

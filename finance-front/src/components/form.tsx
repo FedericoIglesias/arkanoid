@@ -1,37 +1,58 @@
 import { ChangeEvent } from "react";
 import { lenguage, tags } from "../const";
 
-export const Form = ({ listBody }: { listBody: any[] }) => {
-  const transaction = {
-    Amount: 0,
-    Description: "",
-    CategoryID: 1,
-    FlowID: tags.INCOME[0].toLocaleLowerCase(),
+type Transaction = {
+  userID: number;
+  amount: number;
+  description: string;
+  categoryID: number;
+  flowID: number;
+};
+
+export const Form = () => {
+  const transaction: Transaction = {
+    userID: 2,
+    amount: 0,
+    description: "",
+    categoryID: 1,
+    flowID: 2,
   };
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    listBody.push(transaction);
-    console.log(listBody);
+    fetch("http://localhost:3000/transaction", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(transaction),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log("Error: " + err);
+      });
   };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(e.target.value);
-    console.log(e.target.name);
     switch (e.target.name) {
       case tags.AMOUNT[0]:
-        transaction.Amount = Number(e.target.value);
+        transaction.amount = Number(e.target.value);
         break;
       case tags.CATEGORY[0]:
-        transaction.CategoryID = Number(e.target.value);
+        transaction.categoryID = Number(e.target.value);
         break;
       case tags.DESCRIPTION[0]:
-        transaction.Description = e.target.value;
+        transaction.description = e.target.value;
         break;
       case tags.FLOW[0]:
-        transaction.FlowID = e.target.value.toLocaleLowerCase();
+        transaction.flowID = e.target.value == tags.INCOME[lenguage] ? 1 : 2;
         break;
     }
   };
