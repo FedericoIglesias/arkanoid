@@ -6,6 +6,7 @@ import { History } from "./pages/history";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <History />
+    <Dashboard/>
+    {/* <History /> */}
   </StrictMode>
 );

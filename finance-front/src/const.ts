@@ -10,6 +10,10 @@ export const tags = {
   SUBMIT: ["Submit", "Enviar"],
 };
 
+export const WORDS = {
+  ADD_RECORD: ["Add record", "Agregar Registro"],
+};
+
 export const lenguage = 0;
 
 export const PALETTE = {
@@ -25,8 +29,6 @@ export const PALETTE2 = {
   THEIRD: "#EBDCB2", //CREAM
   QUARTER: "#C9A66B", //CARAMEL
 };
-
-
 
 // export const CONTEXT = useContext({
 

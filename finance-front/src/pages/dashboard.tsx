@@ -1,13 +1,6 @@
+import { Modals } from "../components/modals";
 import { Screen } from "../components/screen";
-import { Table } from "../components/table";
-import { lenguage, tags } from "../const";
-
-const listTags: Array<string> = [
-  tags.AMOUNT[lenguage],
-  tags.CATEGORY[lenguage],
-  tags.DESCRIPTION[lenguage],
-  tags.FLOW[lenguage],
-];
+import { lenguage, WORDS } from "../const";
 
 export const Dashboard = () => {
   return (
@@ -15,6 +8,7 @@ export const Dashboard = () => {
       <Screen></Screen>
       <section style={{ gridArea: "main" }}>
         <h2>DASHBOARD</h2>
+        <Modals tag={WORDS.ADD_RECORD[lenguage]} />
       </section>
     </main>
   );

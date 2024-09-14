@@ -1,5 +1,7 @@
 import { ChangeEvent } from "react";
-import { lenguage, tags } from "../const";
+import { lenguage, PALETTE, tags } from "../const";
+import { red } from "@mui/material/colors";
+import styled from "styled-components";
 
 type Transaction = {
   userID: number;
@@ -8,6 +10,29 @@ type Transaction = {
   categoryID: number;
   flowID: number;
 };
+
+
+const FormStyle = styled.form`
+  background-color: ${PALETTE.SECONDARY};
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  label {
+    margin-bottom: 3px;
+  }
+  input,
+  select {
+    margin-bottom: 5px;
+  }
+  input[type="submit" i] {
+    margin: 0 auto;
+    padding: 4px 7px;
+    border-radius: 10px;
+  }
+  input[type="submit" i]:hover {
+    background-color: #6c6c07;
+  }
+`;
 
 export const Form = () => {
   const transaction: Transaction = {
@@ -31,7 +56,9 @@ export const Form = () => {
       body: JSON.stringify(transaction),
     })
       .then((response) => {
-        console.log(response);
+        if (response.status !== 200){
+          alert("Error process your request")
+        }
       })
       .catch((err) => {
         console.log("Error: " + err);
@@ -58,7 +85,9 @@ export const Form = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <FormStyle
+      onSubmit={(e: { preventDefault: () => void }) => handleSubmit(e)}
+    >
       <label htmlFor="price">{tags.AMOUNT[lenguage]}</label>
       <input
         type="number"
@@ -79,8 +108,8 @@ export const Form = () => {
         id="transaction"
         onChange={(e) => handleChange(e)}
       >
-        <option value="income">{tags.INCOME[lenguage]}</option>
-        <option value="outflow">{tags.OUTFLOW[lenguage]}</option>
+        <option value={tags.INCOME[lenguage]}>{tags.INCOME[lenguage]}</option>
+        <option value={tags.OUTFLOW[lenguage]}>{tags.OUTFLOW[lenguage]}</option>
       </select>
       <label htmlFor="category">{tags.CATEGORY[lenguage]}</label>
       <select
@@ -94,6 +123,6 @@ export const Form = () => {
         <option>4</option>
       </select>
       <input type="submit" value={tags.SUBMIT[lenguage]} />
-    </form>
+    </FormStyle>
   );
 };
