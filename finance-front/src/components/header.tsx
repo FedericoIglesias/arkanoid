@@ -14,6 +14,10 @@ export const Header = () => {
       <h1>Finance App</h1>
       <p>Iglesias Federico</p>
       <p>Log Out</p>
+      <select>
+        <option value={0}>English</option>
+        <option value={1}>Español</option>
+      </select>
     </Header>
   );
 };
