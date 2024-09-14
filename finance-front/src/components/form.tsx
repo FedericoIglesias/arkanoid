@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 import { lenguage, PALETTE, tags } from "../const";
 import { red } from "@mui/material/colors";
 import styled from "styled-components";
+import { Error } from "../error";
 
 type Transaction = {
   userID: number;
@@ -57,7 +58,7 @@ export const Form = () => {
     })
       .then((response) => {
         if (response.status !== 200){
-          alert("Error process your request")
+          alert(Error.RESPONSE[lenguage])
         }
       })
       .catch((err) => {
