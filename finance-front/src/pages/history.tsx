@@ -9,12 +9,13 @@ const listTags: Array<string> = [
   tags.FLOW[lenguage],
 ];
 
-export const Dashboard = () => {
+export const History = () => {
   return (
     <main className="bodyScreen">
       <Screen></Screen>
       <section style={{ gridArea: "main" }}>
-        <h2>DASHBOARD</h2>
+        <h2>History</h2>
+        <Table listHead={listTags} />
       </section>
     </main>
   );

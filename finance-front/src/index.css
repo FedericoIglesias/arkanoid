@@ -1,4 +1,17 @@
-*{
+* {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
+  /* border-spacing: 0; */
+  border: none
+}
+
+.bodyScreen {
+  height: 100vh;
+  display: grid;
+  grid-template-areas: 'aside header'
+    'aside main ';
+  grid-template-rows: 5vh 95vh;
+  grid-template-columns: 15vw 85vw;
+  background-color: #222;
 }
