@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
-// export interface CONTEXT{
-
-// }
+export interface Context {
+  language: number;
+  userId: number;
+}

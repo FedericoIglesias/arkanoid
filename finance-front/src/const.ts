@@ -30,6 +30,3 @@ export const PALETTE2 = {
   QUARTER: "#C9A66B", //CARAMEL
 };
 
-// export const CONTEXT = useContext({
-
-// })

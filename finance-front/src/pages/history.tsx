@@ -11,12 +11,11 @@ const listTags: Array<string> = [
 
 export const History = () => {
   return (
-    <main className="bodyScreen">
-      <Screen></Screen>
-      <section style={{ gridArea: "main" }}>
+    <Screen>
+      <>
         <h2>History</h2>
         <Table listHead={listTags} />
-      </section>
-    </main>
+      </>
+    </Screen>
   );
 };

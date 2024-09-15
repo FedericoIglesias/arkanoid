@@ -1,12 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Dashboard } from "./pages/dashboard";
-import "./index.css";
-import { History } from "./pages/history";
+import { App } from "./app";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Dashboard/>
-    {/* <History /> */}
+    <App />
   </StrictMode>
 );
