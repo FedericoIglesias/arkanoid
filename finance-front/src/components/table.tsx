@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Selector } from "./selector";
+import { Category } from "../vite-env";
 
 type getRaw = {
   id: number;
@@ -14,13 +15,36 @@ type getRaw = {
 
 export const Table = ({ listHead }: { listHead: string[] }) => {
   const [data, setData] = useState<any>([]);
+  const [listCategory, setListCategory] = useState<[Category] | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/transaction/2", {
       mode: "cors",
     })
       .then((response) => response.json())
-      .then((json) => setData(json.data))
+      .then((json) => {
+        const listData = json.data.sort(function (a:getRaw, b:getRaw) {
+          if (a.Date < b.Date) {
+            return 1;
+          }
+          if (a.Date > b.Date) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+        setData(listData)})
+      .catch((error) => {
+        console.error("Error al hacer la petición:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/categories", {
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((json) => setListCategory(json.data))
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
       });
@@ -65,6 +89,19 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
     }
   `;
 
+  const putCategory = (id: number) => {
+    let name = "";
+    if (listCategory == null) {
+      return "Wait request";
+    }
+    listCategory.map((element: Category) => {
+      if (element.ID == id) {
+        return (name = element.nameCategory);
+      }
+    });
+    return name.toUpperCase();
+  };
+
   return (
     <>
       <Selector
@@ -83,7 +120,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
           return (
             <div key={JSON.stringify(row.id)}>
               <p>{row.amount}</p>
-              <p>{row.categoryId}</p>
+              <p>{putCategory(row.categoryId)}</p>
               <p>{row.description.slice(0, 10)}</p>
               <p>{row.flowId}</p>
               <p>{new Date(row.Date).toLocaleDateString("en-EN")}</p>

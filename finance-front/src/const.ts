@@ -14,8 +14,6 @@ export const WORDS = {
   ADD_RECORD: ["Add record", "Agregar Registro"],
 };
 
-export const lenguage = 0;
-
 export const PALETTE = {
   PRIMARY: "#626D71", //SLATE
   SECONDARY: "#CDCDC0", //CERAMIC

@@ -1,8 +1,9 @@
-import { ChangeEvent } from "react";
-import { lenguage, PALETTE, tags } from "../const";
-import { red } from "@mui/material/colors";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { PALETTE, tags } from "../const";
 import styled from "styled-components";
 import { Error } from "../error";
+import { Category, Context } from "../vite-env";
+import { ValueContext } from "../Context/valuesContext";
 
 type Transaction = {
   userID: number;
@@ -34,14 +35,19 @@ const FormStyle = styled.form`
   }
 `;
 
+const transaction: Transaction = {
+  userID: 2,
+  amount: 0,
+  description: "",
+  categoryID: 1,
+  flowID: 2,
+};
+
 export const Form = () => {
-  const transaction: Transaction = {
-    userID: 2,
-    amount: 0,
-    description: "",
-    categoryID: 1,
-    flowID: 2,
-  };
+  const { values }: { values: Context } = useContext<any>(ValueContext);
+  console.log(values);
+
+  const [listCategory, setListCategory] = useState<[Category] | null>(null);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -57,13 +63,26 @@ export const Form = () => {
     })
       .then((response) => {
         if (response.status !== 200) {
-          alert(Error.RESPONSE[lenguage]);
+          alert(Error.RESPONSE[values.language]);
+        }else {
+          alert('Succes to proccess your request')
         }
       })
       .catch((err) => {
         console.log("Error: " + err);
       });
   };
+
+  useEffect(() => {
+    fetch("http://localhost:3000/categories", {
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((json) => setListCategory(json.data))
+      .catch((error) => {
+        console.error("Error al hacer la petición:", error);
+      });
+  }, []);
 
   const handleChange = (
     e:
@@ -82,7 +101,8 @@ export const Form = () => {
         transaction.description = e.target.value;
         break;
       case tags.FLOW[0]:
-        transaction.flowID = e.target.value == tags.INCOME[lenguage] ? 1 : 2;
+        transaction.flowID =
+          e.target.value == tags.INCOME[values.language] ? 1 : 2;
         break;
     }
   };
@@ -91,45 +111,51 @@ export const Form = () => {
     <FormStyle
       onSubmit={(e: { preventDefault: () => void }) => handleSubmit(e)}
     >
-      <label htmlFor="price">{tags.AMOUNT[lenguage]}</label>
+      <label htmlFor="price">{tags.AMOUNT[values.language]}</label>
       <input
         type="number"
         name={tags.AMOUNT[0]}
         id="transaction"
         onChange={(e) => handleChange(e)}
       />
-      <label htmlFor="description">{tags.DESCRIPTION[lenguage]}</label>
+      <label htmlFor="description">{tags.DESCRIPTION[values.language]}</label>
       <textarea
         rows={4}
         cols={5}
         maxLength={50}
-        
         name={tags.DESCRIPTION[0]}
         id="transaction"
         onChange={(e) => handleChange(e)}
-        style={{resize: 'none'}}
+        style={{ resize: "none" }}
       />
-      <label htmlFor="flow">{tags.FLOW[lenguage]}</label>
+      <label htmlFor="flow">{tags.FLOW[values.language]}</label>
       <select
         name={tags.FLOW[0]}
         id="transaction"
         onChange={(e) => handleChange(e)}
       >
-        <option value={tags.INCOME[lenguage]}>{tags.INCOME[lenguage]}</option>
-        <option value={tags.OUTFLOW[lenguage]}>{tags.OUTFLOW[lenguage]}</option>
+        <option value={tags.INCOME[values.language]}>
+          {tags.INCOME[values.language]}
+        </option>
+        <option value={tags.OUTFLOW[values.language]}>
+          {tags.OUTFLOW[values.language]}
+        </option>
       </select>
-      <label htmlFor="category">{tags.CATEGORY[lenguage]}</label>
+      <label htmlFor="category">{tags.CATEGORY[values.language]}</label>
       <select
         name={tags.CATEGORY[0]}
         id="transaction"
         onChange={(e) => handleChange(e)}
       >
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
+        {listCategory?.map((element: Category) => {
+          return (
+            <option value={element.ID}>
+              {element.nameCategory.toUpperCase()}
+            </option>
+          );
+        })}
       </select>
-      <input type="submit" value={tags.SUBMIT[lenguage]} />
+      <input type="submit" value={tags.SUBMIT[values.language]} />
     </FormStyle>
   );
 };
