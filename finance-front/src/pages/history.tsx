@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Screen } from "../components/screen";
-import { lenguage, tags } from "../const";
+import {  tags } from "../const";
 import { ValueContext } from "../Context/valuesContext";
 import { Context } from "../vite-env";
 import { Table } from "../components/table";

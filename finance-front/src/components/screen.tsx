@@ -1,7 +1,5 @@
-import { PALETTE2 } from "../const";
 import { Header } from "./header";
 import { Panel } from "./panel";
-
 
 export const Screen = ({ children }: { children: JSX.Element }) => {
   return (
@@ -10,18 +8,32 @@ export const Screen = ({ children }: { children: JSX.Element }) => {
         <section
           style={{
             gridArea: "header",
-            backgroundColor: `${PALETTE2.SECONDARY}`,
-            height: '6vh'
+            backgroundColor: `#FFF`,
+            fontSize: "12px",
           }}
         >
           <Header></Header>
         </section>
         <section
-          style={{ gridArea: "aside", backgroundColor: `${PALETTE2.PRIMARY}`,position: 'static',top:0 }}
+          style={{
+            gridArea: "aside",
+            backgroundColor: `#FFF`,
+            position: "static",
+            top: 0,
+          }}
         >
           <Panel></Panel>
         </section>
-        <section style={{ gridArea: "main", backgroundColor: `#DDD`, position: 'relative',top:0  }}>
+        <section
+          style={{
+            gridArea: "main",
+            backgroundColor: `#EEE`,
+            position: "relative",
+            top: 0,
+            boxShadow: "inset 2px 2px 2px #AAA",
+            padding: '10px 10px '
+          }}
+        >
           {children}
         </section>
       </main>

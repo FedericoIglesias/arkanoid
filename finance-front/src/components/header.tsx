@@ -6,10 +6,9 @@ import { Context } from "../vite-env";
 export const Header = () => {
   const Header = styled.section`
     padding: 5px;
-    /* max-height: 5vh; */
     display: flex;
     justify-content: space-between;
-    div{
+    div {
       display: flex;
     }
   `;

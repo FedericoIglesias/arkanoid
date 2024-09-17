@@ -39,7 +39,7 @@ export function Selector({
       <Pagination
         count={page}
         size="small"
-        onChange={(event, nPage) => setNumberPage(nPage)}
+        onChange={(_, nPage) => setNumberPage(nPage)}
       />
       {/* <Pagination color='primary' style={{ margin: ' 10px auto', backgroundColor:'white' }} shape='rounded' count={page} variant="outlined" onChange={(event, nPage) => setNp(nPage)} /> */}
     </section>

@@ -33,6 +33,20 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
     (numberPage - 1) * rowsPerPage,
     numberPage * rowsPerPage
   );
+  const Thead = styled.div`
+    font-size: 10px;
+    max-width: 85%;
+    max-height: 80vh;
+    margin: 0 auto;
+    background-color: #fff;
+    margin-bottom: 2px;
+    display: flex;
+    border-radius: 10px;
+    p {
+      width: calc(100% / ${listHead.length});
+      padding: 3px 3px;
+    }
+  `;
   const Table = styled.section`
     font-size: 10px;
     max-width: 85%;
@@ -40,19 +54,20 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
     margin: 0 auto;
     overflow-y: auto;
     div {
-      background-color: pink;
+      background-color: #fff;
       margin-bottom: 2px;
       display: flex;
       border-radius: 10px;
       p {
         width: calc(100% / ${listHead.length});
-        padding: 3px;
+        padding: 2px 0px 2px 6px;
       }
     }
-    div:nth-child(1) {
+    /* div:nth-child(1) {
       top: 0;
       position: sticky;
-    }
+      background-color: #ddd;
+    } */
   `;
 
   return (
@@ -63,12 +78,12 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
         rowsPerPage={rowsPerPage}
         setNumberPage={setNumberPage}
       />
+      <Thead>
+        {listHead.map((tag: string) => {
+          return <p key={tag}>{tag}</p>;
+        })}
+      </Thead>
       <Table>
-        <div>
-          {listHead.map((tag: string) => {
-            return <p key={tag}>{tag}</p>;
-          })}
-        </div>
         {dataRows.map((row: getRaw) => {
           return (
             <div key={JSON.stringify(row.id)}>

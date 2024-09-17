@@ -5,10 +5,6 @@
   border: none;
 }
 
-body{
-  /* overflow-x: hidden; */
-}
-
 .bodyScreen {
   height: 100vh;
   display: grid;
@@ -16,5 +12,4 @@ body{
     'aside main ';
   grid-template-rows: 5vh 95vh;
   grid-template-columns: 13vw 87vw;
-  background-color: #222;
 }
