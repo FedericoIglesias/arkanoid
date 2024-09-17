@@ -5,11 +5,19 @@ import { Context } from "../vite-env";
 
 export const Header = () => {
   const Header = styled.section`
-    padding: 5px;
+    padding: 2px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     div {
       display: flex;
+    }
+    select {
+      margin-left: 2px;
+      font-size: 10px;
+      padding-bottom: 1px;
+      border: 1px solid #aaa;
+      border-radius: 10px;
     }
   `;
 
@@ -28,13 +36,11 @@ export const Header = () => {
     <Header>
       <h1>Finance App</h1>
       <p>Iglesias Federico</p>
-      <div>
-        <p>Log Out</p>
-        <select onChange={(e) => handlerChange(e)} value={values.language}>
-          <option value={0}>English</option>
-          <option value={1}>Español</option>
-        </select>
-      </div>
+      <select onChange={(e) => handlerChange(e)} value={values.language}>
+        <option value={0}>En</option>
+        <option value={1}>Es</option>
+      </select>
+      <p>Log Out</p>
     </Header>
   );
 };

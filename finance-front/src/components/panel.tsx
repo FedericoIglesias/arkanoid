@@ -8,10 +8,10 @@ export const Panel = () => {
       <p>Write entry</p>
       <ul>
         <li>
-          <a href="/history">History</a>
+          <a href="/dashboard">Dashboard</a>
         </li>
         <li>
-          <a href="/dashboard">Dashboard</a>
+          <a href="/history">History</a>
         </li>
       </ul>
     </Aside>

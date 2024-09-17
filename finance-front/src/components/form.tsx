@@ -12,7 +12,6 @@ type Transaction = {
   flowID: number;
 };
 
-
 const FormStyle = styled.form`
   background-color: ${PALETTE.SECONDARY};
   display: flex;
@@ -57,8 +56,8 @@ export const Form = () => {
       body: JSON.stringify(transaction),
     })
       .then((response) => {
-        if (response.status !== 200){
-          alert(Error.RESPONSE[lenguage])
+        if (response.status !== 200) {
+          alert(Error.RESPONSE[lenguage]);
         }
       })
       .catch((err) => {
@@ -67,7 +66,10 @@ export const Form = () => {
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e:
+      | ChangeEvent<HTMLInputElement>
+      | ChangeEvent<HTMLSelectElement>
+      | ChangeEvent<HTMLTextAreaElement>
   ) => {
     switch (e.target.name) {
       case tags.AMOUNT[0]:
@@ -97,11 +99,15 @@ export const Form = () => {
         onChange={(e) => handleChange(e)}
       />
       <label htmlFor="description">{tags.DESCRIPTION[lenguage]}</label>
-      <input
-        type="text"
+      <textarea
+        rows={4}
+        cols={5}
+        maxLength={50}
+        
         name={tags.DESCRIPTION[0]}
         id="transaction"
         onChange={(e) => handleChange(e)}
+        style={{resize: 'none'}}
       />
       <label htmlFor="flow">{tags.FLOW[lenguage]}</label>
       <select

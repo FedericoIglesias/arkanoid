@@ -50,7 +50,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
   const Table = styled.section`
     font-size: 10px;
     max-width: 85%;
-    max-height: 80vh;
+    max-height: 75vh;
     margin: 0 auto;
     overflow-y: auto;
     div {
@@ -63,11 +63,6 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
         padding: 2px 0px 2px 6px;
       }
     }
-    /* div:nth-child(1) {
-      top: 0;
-      position: sticky;
-      background-color: #ddd;
-    } */
   `;
 
   return (

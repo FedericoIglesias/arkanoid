@@ -3,7 +3,7 @@ import Modal from "@mui/material/Modal";
 import { Form } from "./form";
 import styled from "styled-components";
 import { PALETTE } from "../const";
-import { useState } from "react";
+import { Children, useState } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -24,7 +24,13 @@ const ButtonDiv = styled.div`
   }
 `;
 
-export const Modals = ({ tag }: { tag: string }) => {
+export const Modals = ({
+  tag,
+  children,
+}: {
+  tag: string;
+  children: JSX.Element;
+}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,7 +47,8 @@ export const Modals = ({ tag }: { tag: string }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Form></Form>
+          {/* <Form></Form> */}
+          {children}
         </Box>
       </Modal>
     </div>

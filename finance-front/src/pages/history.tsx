@@ -1,17 +1,12 @@
 import { useContext } from "react";
 import { Screen } from "../components/screen";
-import {  tags } from "../const";
+import { tags, WORDS } from "../const";
 import { ValueContext } from "../Context/valuesContext";
 import { Context } from "../vite-env";
 import { Table } from "../components/table";
-// import { TableGeneral as Table } from "../components/table";
+import { Form } from "../components/form";
+import { Modals } from "../components/modals";
 
-// const listTags: Array<string> = [
-//   tags.AMOUNT[lenguage],
-//   tags.CATEGORY[lenguage],
-//   tags.DESCRIPTION[lenguage],
-//   tags.FLOW[lenguage],
-// ];
 
 export const History = () => {
   const { values }: { values: Context } = useContext<any>(ValueContext);
@@ -27,6 +22,9 @@ export const History = () => {
   return (
     <Screen>
       <>
+        <Modals tag={WORDS.ADD_RECORD[values.language]}>
+          <Form />
+        </Modals>
         <Table listHead={listTags} />
       </>
     </Screen>
