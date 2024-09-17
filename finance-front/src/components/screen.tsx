@@ -11,16 +11,17 @@ export const Screen = ({ children }: { children: JSX.Element }) => {
           style={{
             gridArea: "header",
             backgroundColor: `${PALETTE2.SECONDARY}`,
+            height: '6vh'
           }}
         >
           <Header></Header>
         </section>
         <section
-          style={{ gridArea: "aside", backgroundColor: `${PALETTE2.PRIMARY}` }}
+          style={{ gridArea: "aside", backgroundColor: `${PALETTE2.PRIMARY}`,position: 'static',top:0 }}
         >
           <Panel></Panel>
         </section>
-        <section style={{ gridArea: "main", backgroundColor: `#222` }}>
+        <section style={{ gridArea: "main", backgroundColor: `#DDD`, position: 'relative',top:0  }}>
           {children}
         </section>
       </main>

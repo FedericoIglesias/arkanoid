@@ -2,8 +2,11 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* border-spacing: 0; */
-  border: none
+  border: none;
+}
+
+body{
+  /* overflow-x: hidden; */
 }
 
 .bodyScreen {
@@ -12,6 +15,6 @@
   grid-template-areas: 'aside header'
     'aside main ';
   grid-template-rows: 5vh 95vh;
-  grid-template-columns: 15vw 85vw;
+  grid-template-columns: 13vw 87vw;
   background-color: #222;
 }

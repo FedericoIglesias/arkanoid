@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { PALETTE } from "../const";
+import { Selector } from "./selector";
 
 type getRaw = {
   id: number;
@@ -26,44 +26,61 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
       });
   }, []);
 
-  PALETTE;
-
-  const TableSty = styled.table`
-    color: #333;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [numberPage, setNumberPage] = useState(1);
+  const page = Math.ceil(data.length / rowsPerPage);
+  const dataRows = data.slice(
+    (numberPage - 1) * rowsPerPage,
+    numberPage * rowsPerPage
+  );
+  const Table = styled.section`
+    font-size: 10px;
+    max-width: 85%;
+    max-height: 80vh;
     margin: 0 auto;
-    border-spacing: 0;
-    -webkit-border-vertical-spacing: 0.2cap;
-    thead, tbody{
-      background-color: ${PALETTE.SECONDARY};
+    overflow-y: auto;
+    div {
+      background-color: pink;
+      margin-bottom: 2px;
+      display: flex;
+      border-radius: 10px;
+      p {
+        width: calc(100% / ${listHead.length});
+        padding: 3px;
+      }
     }
-    th,
-    td {
-      padding: 5px 15px;
+    div:nth-child(1) {
+      top: 0;
+      position: sticky;
     }
   `;
 
   return (
     <>
-      {/* <Form /> */}
-      <TableSty>
-          <thead>
-            {listHead.map((tag: string) => {
-              return <th key={tag}>{tag}</th>;
-            })}
-          </thead>
-        <tbody>
-          {data.map((raw: getRaw) => {
-            return (
-              <tr key={JSON.stringify(raw.id)}>
-                <td>{raw.amount}</td>
-                <td>{raw.categoryId}</td>
-                <td>{raw.description.slice(0, 6)}</td>
-                <td>{raw.flowId}</td>
-              </tr>
-            );
+      <Selector
+        setRowsPerPage={setRowsPerPage}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        setNumberPage={setNumberPage}
+      />
+      <Table>
+        <div>
+          {listHead.map((tag: string) => {
+            return <p key={tag}>{tag}</p>;
           })}
-        </tbody>
-      </TableSty>
+        </div>
+        {dataRows.map((row: getRaw) => {
+          return (
+            <div key={JSON.stringify(row.id)}>
+              <p>{row.amount}</p>
+              <p>{row.categoryId}</p>
+              <p>{row.description.slice(0, 10)}</p>
+              <p>{row.flowId}</p>
+              <p>{new Date(row.Date).toLocaleDateString("en-EN")}</p>
+            </div>
+          );
+        })}
+      </Table>
     </>
   );
 };

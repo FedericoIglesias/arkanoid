@@ -6,8 +6,14 @@ export const Panel = () => {
   return (
     <Aside>
       <p>Write entry</p>
-      <p>History</p>
-      <p>Dashboard</p>
+      <ul>
+        <li>
+          <a href="/history">History</a>
+        </li>
+        <li>
+          <a href="/dashboard">Dashboard</a>
+        </li>
+      </ul>
     </Aside>
   );
 };
