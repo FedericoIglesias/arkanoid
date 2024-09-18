@@ -6,7 +6,7 @@ import { Context } from "../vite-env";
 import { Table } from "../components/table";
 import { Form } from "../components/form";
 import { Modals } from "../components/modals";
-
+import { FormCategory } from "../components/formCategory";
 
 export const History = () => {
   const { values }: { values: Context } = useContext<any>(ValueContext);
@@ -16,15 +16,20 @@ export const History = () => {
     tags.CATEGORY[values.language],
     tags.DESCRIPTION[values.language],
     tags.FLOW[values.language],
-    "Date",
+    tags.DATE[values.language],
   ];
 
   return (
     <Screen>
       <>
-        <Modals tag={WORDS.ADD_RECORD[values.language]}>
-          <Form />
-        </Modals>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Modals tag={WORDS.ADD_RECORD[values.language]}>
+            <Form />
+          </Modals>
+          <Modals tag={WORDS.ADD_CATEGORY[values.language]}>
+            <FormCategory />
+          </Modals>
+        </div>
         <Table listHead={listTags} />
       </>
     </Screen>

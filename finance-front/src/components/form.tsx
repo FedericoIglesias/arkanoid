@@ -45,7 +45,6 @@ const transaction: Transaction = {
 
 export const Form = () => {
   const { values }: { values: Context } = useContext<any>(ValueContext);
-  console.log(values);
 
   const [listCategory, setListCategory] = useState<[Category] | null>(null);
 
@@ -64,8 +63,8 @@ export const Form = () => {
       .then((response) => {
         if (response.status !== 200) {
           alert(Error.RESPONSE[values.language]);
-        }else {
-          alert('Succes to proccess your request')
+        } else {
+          alert("Succes to proccess your request");
         }
       })
       .catch((err) => {

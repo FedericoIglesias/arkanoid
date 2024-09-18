@@ -1,5 +1,3 @@
-import { useContext } from "react";
-
 export const tags = {
   AMOUNT: ["Amount", "Monto"],
   DESCRIPTION: ["Description", "Descripción"],
@@ -8,10 +6,14 @@ export const tags = {
   INCOME: ["Income", "Ingreso"],
   OUTFLOW: ["Outflow", "Gasto"],
   SUBMIT: ["Submit", "Enviar"],
+  DATE: ["Date", "Fecha"],
 };
 
 export const WORDS = {
   ADD_RECORD: ["Add record", "Agregar Registro"],
+  ADD_CATEGORY:["Add category", "Agregar Categoria"],
+  CATEGORY:["Category","Categoria"],
+  SEND:["Send","Enviar"]
 };
 
 export const PALETTE = {
@@ -27,4 +29,3 @@ export const PALETTE2 = {
   THEIRD: "#EBDCB2", //CREAM
   QUARTER: "#C9A66B", //CARAMEL
 };
-

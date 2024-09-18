@@ -47,7 +47,6 @@ export const Modals = ({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <Form></Form> */}
           {children}
         </Box>
       </Modal>

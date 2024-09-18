@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Selector } from "./selector";
-import { Category } from "../vite-env";
+import { Category, Context } from "../vite-env";
+import { ValueContext } from "../Context/valuesContext";
+import { tags } from "../const";
 
 type getRaw = {
   id: number;
@@ -13,9 +15,18 @@ type getRaw = {
   Date: string;
 };
 
+const getDateFormat = (values: Context) => {
+  if (values.language == 0) {
+    return "en-EN";
+  }
+  return "es-ES";
+};
+
 export const Table = ({ listHead }: { listHead: string[] }) => {
   const [data, setData] = useState<any>([]);
   const [listCategory, setListCategory] = useState<[Category] | null>(null);
+
+  const { values }: { values: Context } = useContext<any>(ValueContext);
 
   useEffect(() => {
     fetch("http://localhost:3000/transaction/2", {
@@ -23,7 +34,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
     })
       .then((response) => response.json())
       .then((json) => {
-        const listData = json.data.sort(function (a:getRaw, b:getRaw) {
+        const listData = json.data.sort(function (a: getRaw, b: getRaw) {
           if (a.Date < b.Date) {
             return 1;
           }
@@ -33,7 +44,8 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
           // a must be equal to b
           return 0;
         });
-        setData(listData)})
+        setData(listData);
+      })
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
       });
@@ -82,6 +94,9 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
       margin-bottom: 2px;
       display: flex;
       border-radius: 10px;
+      align-items: center;
+      position: relative;
+      padding: 3px 0;
       p {
         width: calc(100% / ${listHead.length});
         padding: 2px 0px 2px 6px;
@@ -122,8 +137,14 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
               <p>{row.amount}</p>
               <p>{putCategory(row.categoryId)}</p>
               <p>{row.description.slice(0, 10)}</p>
-              <p>{row.flowId}</p>
-              <p>{new Date(row.Date).toLocaleDateString("en-EN")}</p>
+              <p>
+                {row.flowId == 2
+                  ? tags.INCOME[values.language]
+                  : tags.OUTFLOW[values.language]}
+              </p>
+              <p>
+                {new Date(row.Date).toLocaleDateString(getDateFormat(values))}
+              </p>
             </div>
           );
         })}
