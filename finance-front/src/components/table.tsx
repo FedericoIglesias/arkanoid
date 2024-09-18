@@ -1,19 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Selector } from "./selector";
-import { Category, Context } from "../vite-env";
+import { Category, Context, getRaw, MoneyType } from "../vite-env";
 import { ValueContext } from "../Context/valuesContext";
 import { tags } from "../const";
-
-type getRaw = {
-  id: number;
-  amount: number;
-  description: string;
-  categoryId: number;
-  userId: number;
-  flowId: number;
-  Date: string;
-};
 
 const getDateFormat = (values: Context) => {
   if (values.language == 0) {
@@ -25,7 +15,7 @@ const getDateFormat = (values: Context) => {
 export const Table = ({ listHead }: { listHead: string[] }) => {
   const [data, setData] = useState<any>([]);
   const [listCategory, setListCategory] = useState<[Category] | null>(null);
-
+  const [listMoneyType, setListMoneyType] = useState<[MoneyType] | null>(null);
   const { values }: { values: Context } = useContext<any>(ValueContext);
 
   useEffect(() => {
@@ -49,14 +39,21 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
       });
-  }, []);
-
-  useEffect(() => {
+    // ---------------------------------------------------
     fetch("http://localhost:3000/categories", {
       mode: "cors",
     })
       .then((response) => response.json())
       .then((json) => setListCategory(json.data))
+      .catch((error) => {
+        console.error("Error al hacer la petición:", error);
+      });
+    // ---------------------------------------------------
+    fetch("http://localhost:3000/moneyType", {
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((json) => setListMoneyType(json.data))
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
       });
@@ -84,7 +81,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
     }
   `;
   const Table = styled.section`
-    font-size: 10px;
+    font-size: 8px;
     max-width: 85%;
     max-height: 75vh;
     margin: 0 auto;
@@ -100,18 +97,21 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
       p {
         width: calc(100% / ${listHead.length});
         padding: 2px 0px 2px 6px;
+        /* font-size: 8px; */
       }
     }
   `;
 
-  const putCategory = (id: number) => {
+  const putIdName = (id: number, list: MoneyType[] | Category[] | null) => {
     let name = "";
-    if (listCategory == null) {
+    if (list == null) {
       return "Wait request";
     }
-    listCategory.map((element: Category) => {
+    list.map((element: Category | MoneyType) => {
       if (element.ID == id) {
-        return (name = element.nameCategory);
+        "nameCategory" in element
+          ? (name = element.nameCategory)
+          : (name = element.moneyType);
       }
     });
     return name.toUpperCase();
@@ -135,8 +135,8 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
           return (
             <div key={JSON.stringify(row.id)}>
               <p>{row.amount}</p>
-              <p>{putCategory(row.categoryId)}</p>
-              <p>{row.description.slice(0, 10)}</p>
+              <p>{putIdName(row.categoryId, listCategory)}</p>
+              <p>{row.description.slice(0, 10) + "..."}</p>
               <p>
                 {row.flowId == 2
                   ? tags.INCOME[values.language]
@@ -145,6 +145,7 @@ export const Table = ({ listHead }: { listHead: string[] }) => {
               <p>
                 {new Date(row.Date).toLocaleDateString(getDateFormat(values))}
               </p>
+              <p>{putIdName(row.moneyTypeId, listMoneyType)}</p>
             </div>
           );
         })}

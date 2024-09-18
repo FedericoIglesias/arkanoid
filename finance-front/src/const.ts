@@ -7,7 +7,9 @@ export const tags = {
   OUTFLOW: ["Outflow", "Gasto"],
   SUBMIT: ["Submit", "Enviar"],
   DATE: ["Date", "Fecha"],
+  MONEY_TYPE:["Money type","Tipo moneda"]
 };
+
 
 export const WORDS = {
   ADD_RECORD: ["Add record", "Agregar Registro"],

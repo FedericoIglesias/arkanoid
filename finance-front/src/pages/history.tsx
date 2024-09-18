@@ -17,6 +17,7 @@ export const History = () => {
     tags.DESCRIPTION[values.language],
     tags.FLOW[values.language],
     tags.DATE[values.language],
+    tags.MONEY_TYPE[values.language]
   ];
 
   return (

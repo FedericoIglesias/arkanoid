@@ -2,7 +2,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { PALETTE, tags } from "../const";
 import styled from "styled-components";
 import { Error } from "../error";
-import { Category, Context } from "../vite-env";
+import { Category, Context, MoneyType } from "../vite-env";
 import { ValueContext } from "../Context/valuesContext";
 
 type Transaction = {
@@ -11,6 +11,7 @@ type Transaction = {
   description: string;
   categoryID: number;
   flowID: number;
+  moneyTypeID: number;
 };
 
 const FormStyle = styled.form`
@@ -41,12 +42,14 @@ const transaction: Transaction = {
   description: "",
   categoryID: 1,
   flowID: 2,
+  moneyTypeID: 1,
 };
 
 export const Form = () => {
   const { values }: { values: Context } = useContext<any>(ValueContext);
 
   const [listCategory, setListCategory] = useState<[Category] | null>(null);
+  const [listMoneyType, setListMoneyType] = useState<[MoneyType] | null>(null);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -81,6 +84,14 @@ export const Form = () => {
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
       });
+    fetch("http://localhost:3000/moneyType", {
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((json) => setListMoneyType(json.data))
+      .catch((error) => {
+        console.error("Error al hacer la petición:", error);
+      });
   }, []);
 
   const handleChange = (
@@ -102,6 +113,9 @@ export const Form = () => {
       case tags.FLOW[0]:
         transaction.flowID =
           e.target.value == tags.INCOME[values.language] ? 1 : 2;
+        break;
+      case tags.MONEY_TYPE[0]:
+        transaction.description = e.target.value;
         break;
     }
   };
@@ -150,6 +164,20 @@ export const Form = () => {
           return (
             <option value={element.ID}>
               {element.nameCategory.toUpperCase()}
+            </option>
+          );
+        })}
+      </select>
+      <label htmlFor="moneyType">{tags.MONEY_TYPE[values.language]}</label>
+      <select
+        name={tags.MONEY_TYPE[0]}
+        id="transaction"
+        onChange={(e) => handleChange(e)}
+      >
+        {listMoneyType?.map((element: MoneyType) => {
+          return (
+            <option value={element.ID}>
+              {element.moneyType.toUpperCase()}
             </option>
           );
         })}
