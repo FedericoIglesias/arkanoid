@@ -1,9 +1,8 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { Form } from "./form";
 import styled from "styled-components";
 import { PALETTE } from "../const";
-import { Children, useState } from "react";
+import { useState } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -46,9 +45,7 @@ export const Modals = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          {children}
-        </Box>
+        <Box sx={style}>{children}</Box>
       </Modal>
     </div>
   );
