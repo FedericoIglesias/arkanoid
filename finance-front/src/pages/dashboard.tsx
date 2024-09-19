@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Modals } from "../components/modals";
 import { Screen } from "../components/screen";
 import { WORDS } from "../const";
