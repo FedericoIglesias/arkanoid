@@ -44,7 +44,7 @@ func CreateTransaction(c *gin.Context) {
 
 func GetTransactions(c *gin.Context) {
 
-	id, err := strconv.Atoi(c.Param("idUser"))
+	id, err := strconv.Atoi(c.GetString("ID"))
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -62,11 +62,17 @@ func GetTransactions(c *gin.Context) {
 }
 
 func GetBalance(c *gin.Context) {
-	userId := 2
-	result, err := service.GetBalance(&userId)
+
+	id, err := strconv.Atoi(c.GetString("ID"))
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
+	result, err := service.GetBalance(&id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data":result})
+	c.JSON(http.StatusOK, gin.H{"data": result})
 }

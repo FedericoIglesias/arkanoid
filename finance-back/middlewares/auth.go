@@ -16,14 +16,15 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		userID, err := utils.ValidateToken(tokenString)
+		claims, err := utils.ValidateToken(tokenString)
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token invalid"})
 			c.Abort()
 			return
 		}
-		c.Set("userID", userID)
+		c.Set("ID", claims.ID)
+		c.Set("subject", claims.Subject)
 		c.Next()
 	}
 }

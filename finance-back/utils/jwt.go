@@ -8,23 +8,15 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type CustomClaims struct {
-	Foo string `json:"foo"`
-	jwt.RegisteredClaims
-}
-
 // 1234567890123456789012345678901234567890123456789012345678901234
 var jwtKey = []byte("1234567890123456789012345678901234567890123456789012345678901234")
 
 func GenerateToken(email *string) (string, error) {
 
-	claims := CustomClaims{
-		"bar",
-		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().AddDate(0, 0, 1)),
-			Subject:   *email,
-			ID:        "2",
-		},
+	claims := jwt.RegisteredClaims{
+		ExpiresAt: jwt.NewNumericDate(time.Now().AddDate(0, 0, 1)),
+		Subject:   *email,
+		ID:        "2",
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -44,13 +36,13 @@ func GenerateToken(email *string) (string, error) {
 	return tokenStr, nil
 }
 
-func ValidateToken(tokenString string) (*jwt.Token, error) {
+func ValidateToken(tokenString string) (*jwt.RegisteredClaims, error) {
 
 	if errSearch := service.SearchJWT(&tokenString); errSearch != nil {
 		return nil, errSearch
 	}
 
-	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 
@@ -58,5 +50,11 @@ func ValidateToken(tokenString string) (*jwt.Token, error) {
 		return nil, fmt.Errorf(err.Error())
 	}
 
-	return token, nil
+	claims, ok := token.Claims.(*jwt.RegisteredClaims)
+
+	if !ok {
+		return nil, fmt.Errorf("problem with claims in jwt")
+	}
+
+	return claims, nil
 }
