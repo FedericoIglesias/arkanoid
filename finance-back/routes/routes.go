@@ -20,7 +20,8 @@ func SetupRouter() *gin.Engine {
 
 	r.POST("/register", controller.CreateUser)
 	r.POST("/login", controller.LoginUser)
-	// r.GET("/status")
+	r.GET("/status")
+
 	authorized := r.Group("/")
 	authorized.Use(middlewares.AuthMiddleware())
 	{

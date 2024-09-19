@@ -3,13 +3,16 @@ package utils
 import (
 	"finance-api/service"
 	"fmt"
-	"time"
-
 	"github.com/golang-jwt/jwt/v5"
+	"os"
+	"time"
 )
 
+// SECRET_KEY := os.Get
+var SECRET_KEY = os.Getenv("SECRET_KEY")
+
 // 1234567890123456789012345678901234567890123456789012345678901234
-var jwtKey = []byte("1234567890123456789012345678901234567890123456789012345678901234")
+var jwtKey = []byte(SECRET_KEY)
 
 func GenerateToken(email *string) (string, error) {
 
