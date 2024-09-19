@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"finance-api/service"
 	"fmt"
 	"time"
-	// "time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -16,13 +16,13 @@ type CustomClaims struct {
 // 1234567890123456789012345678901234567890123456789012345678901234
 var jwtKey = []byte("1234567890123456789012345678901234567890123456789012345678901234")
 
-func GenerateToken(username *string) (string, error) {
+func GenerateToken(email *string) (string, error) {
 
 	claims := CustomClaims{
 		"bar",
 		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().AddDate(0,0,1)),
-			Subject:   *username,
+			ExpiresAt: jwt.NewNumericDate(time.Now().AddDate(0, 0, 1)),
+			Subject:   *email,
 			ID:        "2",
 		},
 	}
@@ -30,6 +30,12 @@ func GenerateToken(username *string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	tokenStr, err := token.SignedString(jwtKey)
+
+	if err != nil {
+		return "", err
+	}
+
+	err = service.RegisterJWT(tokenStr, email)
 
 	if err != nil {
 		return "", err
@@ -47,10 +53,7 @@ func ValidateToken(tokenString string) (*jwt.Token, error) {
 	if err != nil {
 		println(err.Error())
 		return nil, fmt.Errorf(err.Error())
-	} else if claims, ok := token.Claims.(*CustomClaims); ok {
-		fmt.Println(claims.Foo, claims.ID, claims.Subject)
-	} else {
-		fmt.Errorf("unknown claims type, cannot proceed")
 	}
+
 	return token, nil
 }

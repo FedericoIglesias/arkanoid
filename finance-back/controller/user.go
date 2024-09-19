@@ -14,6 +14,7 @@ type UserReq struct {
 	Email    string `json:"email"`
 	Name     string `json:"name"`
 	Password string `json:"password"`
+	Token    string `json:"token"`
 }
 
 func CreateUser(c *gin.Context) {
