@@ -35,7 +35,7 @@ func GenerateToken(email *string) (string, error) {
 		return "", err
 	}
 
-	err = service.RegisterJWT(tokenStr, email)
+	err = service.RegisterJWT(&tokenStr, email)
 
 	if err != nil {
 		return "", err
@@ -46,12 +46,15 @@ func GenerateToken(email *string) (string, error) {
 
 func ValidateToken(tokenString string) (*jwt.Token, error) {
 
+	if errSearch := service.SearchJWT(&tokenString); errSearch != nil {
+		return nil, errSearch
+	}
+
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 
 	if err != nil {
-		println(err.Error())
 		return nil, fmt.Errorf(err.Error())
 	}
 
