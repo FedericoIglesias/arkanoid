@@ -5,9 +5,8 @@ import (
 	"finance-api/models"
 	"finance-api/service"
 	"finance-api/utils"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type UserReq struct {

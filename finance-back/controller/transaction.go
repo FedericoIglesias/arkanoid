@@ -60,3 +60,13 @@ func GetTransactions(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": listTransaction})
 }
+
+func GetBalance(c *gin.Context) {
+	userId := 2
+	result, err := service.GetBalance(&userId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data":result})
+}
