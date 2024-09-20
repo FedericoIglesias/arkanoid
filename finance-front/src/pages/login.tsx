@@ -1,7 +1,5 @@
-import { MouseEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Login as Log } from "../vite-env";
-import { json } from "react-router-dom";
 
 const LoginSTY = styled.section`
   background-color: #222;

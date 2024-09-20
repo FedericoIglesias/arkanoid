@@ -73,5 +73,5 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{"jwt": jwt})
+	c.JSON(http.StatusAccepted, gin.H{"jwt": jwt, "ID": user.ID, "email": user.Email})
 }
