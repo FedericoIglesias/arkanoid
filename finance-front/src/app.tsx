@@ -8,6 +8,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { Login } from "./pages/login";
 
 export const App = () => {
   const router = createBrowserRouter(
@@ -15,6 +16,8 @@ export const App = () => {
       <>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/history" element={<History />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
       </>
     )
   );
@@ -26,4 +29,3 @@ export const App = () => {
     </>
   );
 };
-

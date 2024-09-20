@@ -6,7 +6,8 @@ export const ValueContext = createContext({});
 export const ValuesContext = ({ children }: { children: JSX.Element }) => {
   const [values, setValues] = useState<Context>({
     language: 0,
-    userId: 2,
+    ID: null,
+    jwt: null,
   });
 
   const transportData = { values, setValues };
