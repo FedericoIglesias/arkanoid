@@ -4,6 +4,7 @@ export interface Context {
   language: number;
   ID: number | null;
   jwt: string | null;
+  email: string | null;
 }
 
 export interface Category {
@@ -27,7 +28,13 @@ export interface getRaw {
   moneyTypeId: number;
 }
 
-export interface Login {
+export interface ReqLogin {
   email: string;
   password: string;
+}
+
+export interface ResLogin {
+  ID: number;
+  jwt: string;
+  email: string;
 }

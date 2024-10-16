@@ -8,6 +8,7 @@ export const ValuesContext = ({ children }: { children: JSX.Element }) => {
     language: 0,
     ID: null,
     jwt: null,
+    email: null,
   });
 
   const transportData = { values, setValues };

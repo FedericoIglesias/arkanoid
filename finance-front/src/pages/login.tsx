@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { Login as Log } from "../vite-env";
+import { Context, ReqLogin, ResLogin } from "../vite-env";
+import { useContext, useEffect } from "react";
+import { ValueContext } from "../Context/valuesContext";
+import { Email } from "@mui/icons-material";
 
 const LoginSTY = styled.section`
   background-color: #222;
@@ -33,11 +36,13 @@ const LoginSTY = styled.section`
 `;
 
 export const Login = () => {
-  const login: Log = { email: "", password: "" };
+  const login: ReqLogin = { email: "", password: "" };
+
+  const { setValues }: { values: Context; setValues: any } =
+    useContext<any>(ValueContext);
 
   const handlerSubmit = (e: any) => {
     e.preventDefault();
-    console.log(login);
 
     fetch("http://localhost:3000/login", {
       method: "POST",
@@ -45,7 +50,18 @@ export const Login = () => {
       body: JSON.stringify(login),
     })
       .then((response) => response.text())
-      .then((json) => console.log(JSON.parse(json).jwt));
+      .then((json) => {
+        const data: ResLogin = JSON.parse(json);
+        setValues((prevState: Context) => ({
+          ...prevState,
+          ID: data.ID,
+          email: data.email,
+          jwt: data.jwt,
+        }));
+      })
+      .catch((e)=>{
+        alert(e)
+      });
   };
 
   return (
