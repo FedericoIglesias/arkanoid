@@ -1,16 +1,15 @@
 package main
 
+import (
+	"arkanoid/internal/game"
 
-// type Game interface {
-// 	Update() error
-// 	Draw(screen *ebiten.Image)
-// 	Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int)
-// }
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
+func main() {
 
-
-// for {
-// 	// One tick
-// 	UpdateLogic()
-// 	DrawFrame()
-// }
+	g := &game.Game{}
+	if err := ebiten.RunGame(g); err != nil {
+		panic(err)
+	}
+}
