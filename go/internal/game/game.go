@@ -6,7 +6,6 @@ import (
 	"arkanoid/internal/platform"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Game struct {
@@ -16,9 +15,11 @@ type Game struct {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
+	g.Ball.Draw(screen)
+	
 }
 func (g *Game) Update() error {
+	g.Ball.Update()
 	return nil
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
