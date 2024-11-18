@@ -2,12 +2,10 @@ package ball
 
 import (
 	"arkanoid/internal/global"
-	"image"
+	img "arkanoid/internal/sprite"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
-
-var sprite = global.LoadImg("img/sprite.png")
 
 type Ball struct {
 	X      float64
@@ -19,28 +17,26 @@ type Ball struct {
 }
 
 func NewBall(dirX int, dirY int) *Ball {
-	r := image.Rectangle{
-		Min: image.Point{46, 94},
-		Max: image.Point{51, 99},
-	}
 	return &Ball{
 		X:      global.SCREEN_WIDTH / 2,
 		Y:      global.SCREEN_HEIGHT / 2,
-		DirX:   0,
-		DirY:   0,
+		DirX:   1,
+		DirY:   1,
 		Width:  2,
-		Sprite: ebiten.NewImageFromImage(sprite.SubImage(r)),
+		Sprite: ebiten.NewImageFromImage(img.GetSprite("internal/sprite/img/sprite.png", 5, 5, 46, 94)), //ebiten.NewImageFromImage(sprite.SubImage(r)),
 	}
 }
 
 func (b *Ball) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(b.X, b.Y)
+	halfX := b.Sprite.Bounds().Dx() / 2
+	halfY := b.Sprite.Bounds().Dy() / 2
 	op.GeoM.Scale(3, 3)
+	op.GeoM.Translate(b.X-float64(halfX), b.Y-float64(halfY))
 	screen.DrawImage(b.Sprite, op)
 }
 
 func (b *Ball) Update() {
-	b.X += float64(b.DirX)
-	b.Y += float64(b.DirY)
+	// b.X += float64(b.DirX)
+	// b.Y += float64(b.DirY)
 }
