@@ -8,3 +8,5 @@ type Brick struct {
 	Score  int
 	Sprite ebiten.Image
 }
+
+// sprite.GetSprite("sprite.png", 128,8, 30,83)

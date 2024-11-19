@@ -8,3 +8,6 @@ type Platform struct {
 	DirX   int
 	Sprite ebiten.Image
 }
+
+
+// GetSprite("sprite.png", 51,12, 29,174)
