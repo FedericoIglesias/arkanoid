@@ -16,10 +16,11 @@ type Game struct {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.Ball.Draw(screen)
-	
+	g.Platform.Draw(screen)
 }
 func (g *Game) Update() error {
 	g.Ball.Update()
+	g.Platform.Update()
 	return nil
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {

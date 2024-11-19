@@ -36,4 +36,3 @@ func GetSprite(pathPNG string, sizeX, sizeY, posX, posY int) image.Image {
 	// }
 	return croppedImage
 }
-

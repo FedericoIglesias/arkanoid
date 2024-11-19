@@ -4,6 +4,7 @@ import (
 	"arkanoid/internal/ball"
 	"arkanoid/internal/game"
 	"arkanoid/internal/global"
+	"arkanoid/internal/platform"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -11,9 +12,10 @@ import (
 func main() {
 
 	g := &game.Game{
-		Ball: *ball.NewBall(2, 2),
+		Ball:     *ball.NewBall(2, 2),
+		Platform: *platform.NewPlatform(),
 	}
-	
+
 	ebiten.SetWindowSize(global.SCREEN_WIDTH, global.SCREEN_HEIGHT)
 	if err := ebiten.RunGame(g); err != nil {
 		panic(err)
