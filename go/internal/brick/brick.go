@@ -11,10 +11,11 @@ type Brick struct {
 	X      float64
 	Y      float64
 	Score  int
-	Sprite ebiten.Image
-	halfX  float64
-	halfY  float64
-	draw   bool
+	HalfX  float64
+	HalfY  float64
+	Appear bool
+	Sprite *ebiten.Image
+	Scale  float64
 }
 
 func NewBrick(x, y float64, ID int) *Brick {
@@ -24,10 +25,11 @@ func NewBrick(x, y float64, ID int) *Brick {
 		X:      x,
 		Y:      y,
 		Score:  ID,
-		Sprite: *ebiten.NewImageFromImage(sprite),
-		halfX:  float64(sprite.Bounds().Dx() / 2),
-		halfY:  float64(sprite.Bounds().Dy() / 2),
-		draw:   true,
+		Appear: true,
+		HalfX:  float64(sprite.Bounds().Dx() / 2),
+		HalfY:  float64(sprite.Bounds().Dy() / 2),
+		Sprite: ebiten.NewImageFromImage(sprite),
+		Scale:  3,
 	}
 }
 
@@ -36,25 +38,25 @@ func (b *Brick) Update() {
 }
 
 func (b *Brick) Draw(screen *ebiten.Image) {
-	if b.draw {
+	if b.Appear {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(3, 3)
+		op.GeoM.Scale(b.Scale, b.Scale)
 		op.GeoM.Translate(b.X, b.Y)
-		screen.DrawImage(&b.Sprite, op)
+		screen.DrawImage(b.Sprite, op)
 	}
 }
 
 func CreateMatrixBricks(X, Y int) [][]*Brick {
 
-	matrixBRicks := make([][]*Brick, 7)
+	matrixBricks := make([][]*Brick, 7)
 	for column := range 7 {
-		matrixBRicks[column] = make([]*Brick, 15)
+		matrixBricks[column] = make([]*Brick, 15)
 		for row := range 15 {
 			ID := (rand.Intn(7) + 1)
 			X := X + 16*(row)*3
 			Y := Y + 8*(column)*3
-			matrixBRicks[column][row] = NewBrick(float64(X), float64(Y), ID)
+			matrixBricks[column][row] = NewBrick(float64(X), float64(Y), ID)
 		}
 	}
-	return matrixBRicks
+	return matrixBricks
 }

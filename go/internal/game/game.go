@@ -27,7 +27,55 @@ func (g *Game) Draw(screen *ebiten.Image) {
 func (g *Game) Update() error {
 	g.Ball.Update()
 	g.Platform.Update()
-	// g.Brick.Update()
+
+	for i := range g.Brick {
+		for j := range g.Brick[i] {
+
+			// top side of block
+			touchTopBlock := g.Brick[i][j].Y == g.Ball.Y-g.Ball.HalfY*6
+
+			// down side of block
+			touchBotBlock := g.Brick[i][j].Y+g.Brick[i][j].HalfY*6 == g.Ball.Y
+
+			//left side of block
+			touchLeftBlock := g.Brick[i][j].X == g.Ball.X+g.Ball.HalfY*6
+
+			//right side of block
+			touchRightBlock := g.Brick[i][j].X+(16*3) == g.Ball.X
+
+			betweenWidthBlock := g.Brick[i][j].X <= g.Ball.X && g.Brick[i][j].X+(16*3) >= g.Ball.X
+
+			betweenHeightBlock := g.Brick[i][j].Y <= g.Ball.Y && g.Brick[i][j].Y+g.Brick[i][j].HalfY*6 >= g.Ball.Y
+
+			if touchBotBlock && betweenWidthBlock {
+				g.Brick[i][j].X = -16*3
+				g.Brick[i][j].Y = -16*3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirY = -g.Ball.DirY
+			}
+
+			if touchTopBlock && betweenWidthBlock {
+				g.Brick[i][j].X = -16 *3
+				g.Brick[i][j].Y = -16*3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirY = -g.Ball.DirY
+			}
+
+			if touchLeftBlock && betweenHeightBlock {
+				g.Brick[i][j].X = -16*3
+				g.Brick[i][j].Y = -16*3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirX = -g.Ball.DirX
+			}
+
+			if touchRightBlock && betweenHeightBlock {
+				g.Brick[i][j].X = -16*3
+				g.Brick[i][j].Y = -16*3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirX = -g.Ball.DirX
+			}
+		}
+	}
 	return nil
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {

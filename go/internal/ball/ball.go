@@ -12,10 +12,9 @@ type Ball struct {
 	Y      float64
 	DirY   int
 	DirX   int
-	Width  int
+	HalfX  float64
+	HalfY  float64
 	Sprite *ebiten.Image
-	halfX  float64
-	halfY  float64
 }
 
 func NewBall(dirX int, dirY int) *Ball {
@@ -23,12 +22,11 @@ func NewBall(dirX int, dirY int) *Ball {
 	return &Ball{
 		X:      global.SCREEN_WIDTH / 2,
 		Y:      global.SCREEN_HEIGHT / 2,
-		DirX:   -10,
-		DirY:   -10,
-		Width:  2,
+		DirX:   -1,
+		DirY:   -1,
+		HalfX:  float64(sprite.Bounds().Dx() / 2),
+		HalfY:  float64(sprite.Bounds().Dy() / 2),
 		Sprite: sprite, //ebiten.NewImageFromImage(sprite.SubImage(r)),
-		halfX:  float64(sprite.Bounds().Dx() / 2),
-		halfY:  float64(sprite.Bounds().Dy() / 2),
 	}
 }
 
@@ -36,24 +34,23 @@ func (b *Ball) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 
 	op.GeoM.Scale(3, 3)
-	op.GeoM.Translate(b.X-b.halfX, b.Y-b.halfY)
+	op.GeoM.Translate(b.X-b.HalfX, b.Y-b.HalfY)
 	screen.DrawImage(b.Sprite, op)
 }
 
 func (b *Ball) Update() {
-	if b.X-b.halfX <= 0 {
+	if b.X-b.HalfX <= 0 {
 		b.DirX = -b.DirX
 	}
-	if b.X+b.halfX >= global.SCREEN_WIDTH {
+	if b.X+b.HalfX >= global.SCREEN_WIDTH {
 		b.DirX = -b.DirX
 	}
-	if b.Y-b.halfY <= 0 {
+	if b.Y-b.HalfY <= 0 {
 		b.DirY = -b.DirY
 	}
-	if b.Y+b.halfY >= global.SCREEN_HEIGHT {
+	if b.Y+b.HalfY >= global.SCREEN_HEIGHT {
 		b.DirY = -b.DirY
 	}
-
 	b.X += float64(b.DirX)
 	b.Y += float64(b.DirY)
 }
