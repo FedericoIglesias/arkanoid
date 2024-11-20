@@ -18,8 +18,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.Ball.Draw(screen)
 	g.Platform.Draw(screen)
 
-	for i, _ := range g.Brick {
-		for j, _ := range g.Brick[i] {
+	for i := range g.Brick {
+		for j := range g.Brick[i] {
 			g.Brick[i][j].Draw(screen)
 		}
 	}
