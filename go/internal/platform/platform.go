@@ -30,7 +30,7 @@ func NewPlatform() *Platform {
 }
 
 func (p *Platform) Update() {
-	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.X+p.halfX <= global.SCREEN_WIDTH {
+	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.X+p.halfX*3 <= global.SCREEN_WIDTH {
 		p.X += p.DirX
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.X-p.halfX >= 0 {
@@ -40,7 +40,7 @@ func (p *Platform) Update() {
 
 func (p *Platform) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(3, 3)
+	op.GeoM.Scale(2.5, 2.5)
 	op.GeoM.Translate(p.X-p.halfX, p.Y-p.halfY)
 	screen.DrawImage(p.Sprite, op)
 }
