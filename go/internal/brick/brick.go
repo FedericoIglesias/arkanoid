@@ -19,17 +19,17 @@ type Brick struct {
 }
 
 func NewBrick(x, y float64, ID int) *Brick {
-	sprite := img.GetSprite("sprite.png", 16, 8, 30+(16*ID), 83)
-
+	sprite := img.GetSprite("../img/sprite.png", 16, 8, 30+(16*ID), 83)
+	Scale := 3.0
 	return &Brick{
 		X:      x,
 		Y:      y,
 		Score:  ID,
 		Appear: true,
-		HalfX:  float64(sprite.Bounds().Dx() / 2),
-		HalfY:  float64(sprite.Bounds().Dy() / 2),
+		HalfX:  float64(sprite.Bounds().Dx()/2) * Scale,
+		HalfY:  float64(sprite.Bounds().Dy()/2) * Scale,
 		Sprite: ebiten.NewImageFromImage(sprite),
-		Scale:  3,
+		Scale:  Scale,
 	}
 }
 

@@ -12,35 +12,38 @@ type Platform struct {
 	Y      float64
 	DirX   float64
 	Sprite *ebiten.Image
-	halfX  float64
-	halfY  float64
+	HalfX  float64
+	HalfY  float64
+	Scale  float64
 }
 
 func NewPlatform() *Platform {
-	sprite := img.GetSprite("sprite.png", 51, 12, 29, 174)
-
+	sprite := img.GetSprite("../img/sprite.png", 51, 12, 29, 174)
+	Scale := 2.5
 	return &Platform{
 		X:      global.SCREEN_WIDTH / 2,
 		Y:      global.SCREEN_HEIGHT - 40,
 		DirX:   10,
 		Sprite: ebiten.NewImageFromImage(sprite),
-		halfX:  float64(sprite.Bounds().Dx() / 2),
-		halfY:  float64(sprite.Bounds().Dy() / 2),
+		HalfX:  float64(sprite.Bounds().Dx()/2) * Scale,
+		HalfY:  float64(sprite.Bounds().Dy()/2) * Scale,
+		Scale:  Scale,
 	}
 }
 
 func (p *Platform) Update() {
-	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.X+p.halfX*3 <= global.SCREEN_WIDTH {
+
+	if ebiten.IsKeyPressed(ebiten.KeyArrowRight) && p.X+p.HalfX <= global.SCREEN_WIDTH {
 		p.X += p.DirX
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.X-p.halfX >= 0 {
+	if ebiten.IsKeyPressed(ebiten.KeyArrowLeft) && p.X-p.HalfX >= 0 {
 		p.X -= p.DirX
 	}
 }
 
 func (p *Platform) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(2.5, 2.5)
-	op.GeoM.Translate(p.X-p.halfX, p.Y-p.halfY)
+	op.GeoM.Scale(p.Scale, p.Scale)
+	op.GeoM.Translate(p.X-p.HalfX, p.Y-p.HalfY)
 	screen.DrawImage(p.Sprite, op)
 }

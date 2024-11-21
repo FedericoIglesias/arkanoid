@@ -17,6 +17,7 @@ func main() {
 		Ball:     *ball.NewBall(2, 2),
 		Platform: *platform.NewPlatform(),
 		Brick:    brick.CreateMatrixBricks(40 ,80),
+		Background: *game.NewBackground(),
 	}
 
 	ebiten.SetWindowSize(global.SCREEN_WIDTH, global.SCREEN_HEIGHT)
