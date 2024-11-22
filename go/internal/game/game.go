@@ -4,6 +4,7 @@ import (
 	"arkanoid/internal/ball"
 	"arkanoid/internal/brick"
 	"arkanoid/internal/global"
+	"arkanoid/internal/paused"
 	"arkanoid/internal/platform"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -14,6 +15,7 @@ type Game struct {
 	Brick      [][]*brick.Brick
 	Platform   platform.Platform
 	Background Background
+	Paused     paused.Paused
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
@@ -26,14 +28,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		}
 	}
 	g.Ball.Draw(screen)
+	if g.Paused.Show == 1 {
+		g.Paused.Draw(screen)
+	}
 }
 func (g *Game) Update() error {
+	g.Paused.Update()
+	if g.Paused.Show == 1 {
+		return nil
+	}
 	g.Platform.Update()
 	g.Ball.Update()
 	g.CollisionBrickBall()
-	if g.Ball.FlagOut == 1 {
-		panic("endGam")
-	}
+	// if g.Ball.FlagOut == 1 {
+	// panic("endGam")
+	// }
 	return nil
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
