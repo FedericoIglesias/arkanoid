@@ -8,28 +8,34 @@ import (
 )
 
 type Ball struct {
-	X      float64
-	Y      float64
-	DirY   int
-	DirX   int
-	HalfX  float64
-	HalfY  float64
-	Sprite *ebiten.Image
-	Scale  float64
+	X            float64
+	Y            float64
+	DirY         int
+	DirX         int
+	HalfX        float64
+	HalfY        float64
+	Sprite       *ebiten.Image
+	Scale        float64
+	Size         float64
+	FlagOut      int8
+	FlagPlatform int8
 }
 
 func NewBall(dirX int, dirY int) *Ball {
 	sprite := ebiten.NewImageFromImage(img.GetSprite("../img/sprite.png", 5, 5, 46, 94))
 	Scale := 3.0
 	return &Ball{
-		X:      global.SCREEN_WIDTH / 2,
-		Y:      global.SCREEN_HEIGHT / 2,
-		DirX:   -1,
-		DirY:   -1,
-		HalfX:  float64(sprite.Bounds().Dx()/2) * Scale,
-		HalfY:  float64(sprite.Bounds().Dy()/2) * Scale,
-		Sprite: sprite, //ebiten.NewImageFromImage(sprite.SubImage(r)),
-		Scale:  Scale,
+		X:            global.SCREEN_WIDTH / 2,
+		Y:            global.SCREEN_HEIGHT / 2,
+		DirX:         -3,
+		DirY:         -3,
+		HalfX:        float64(sprite.Bounds().Dx()/2) * Scale,
+		HalfY:        float64(sprite.Bounds().Dy()/2) * Scale,
+		Sprite:       sprite, //ebiten.NewImageFromImage(sprite.SubImage(r)),
+		Scale:        Scale,
+		Size:         5 * Scale,
+		FlagOut:      0,
+		FlagPlatform: 0,
 	}
 }
 
@@ -42,6 +48,9 @@ func (b *Ball) Draw(screen *ebiten.Image) {
 }
 
 func (b *Ball) Update() {
+	if b.Y < 400 {
+		b.FlagPlatform = 0
+	}
 	if b.X-b.HalfX <= 0 {
 		b.DirX = -b.DirX
 	}
@@ -52,7 +61,7 @@ func (b *Ball) Update() {
 		b.DirY = -b.DirY
 	}
 	if b.Y+b.HalfY >= global.SCREEN_HEIGHT {
-		b.DirY = -b.DirY
+		b.FlagOut = 1
 	}
 	b.X += float64(b.DirX)
 	b.Y += float64(b.DirY)

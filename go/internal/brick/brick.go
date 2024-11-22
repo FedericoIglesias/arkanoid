@@ -16,6 +16,8 @@ type Brick struct {
 	Appear bool
 	Sprite *ebiten.Image
 	Scale  float64
+	SizeH  float64
+	SizeW  float64
 }
 
 func NewBrick(x, y float64, ID int) *Brick {
@@ -30,6 +32,8 @@ func NewBrick(x, y float64, ID int) *Brick {
 		HalfY:  float64(sprite.Bounds().Dy()/2) * Scale,
 		Sprite: ebiten.NewImageFromImage(sprite),
 		Scale:  Scale,
+		SizeH:  8 * Scale,
+		SizeW:  16 * Scale,
 	}
 }
 
@@ -53,8 +57,8 @@ func CreateMatrixBricks(X, Y int) [][]*Brick {
 		matrixBricks[column] = make([]*Brick, 15)
 		for row := range 15 {
 			ID := (rand.Intn(7) + 1)
-			X := X + 16*(row)*3
-			Y := Y + 8*(column)*3
+			X := X + 16*(row)*3    // Be carefull because the size isn't dynamic
+			Y := Y + 8*(column)*3  // Be carefull because the size isn't dynamic
 			matrixBricks[column][row] = NewBrick(float64(X), float64(Y), ID)
 		}
 	}
