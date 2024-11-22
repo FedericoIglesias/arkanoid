@@ -5,7 +5,6 @@ import (
 	"arkanoid/internal/brick"
 	"arkanoid/internal/global"
 	"arkanoid/internal/platform"
-	"fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -46,7 +45,6 @@ func (g *Game) CollisionPlatformBall() {
 	betweenWidthPlatform := g.Ball.X <= g.Platform.X+g.Platform.SizeW && g.Ball.X+g.Ball.Size >= g.Platform.X-g.Platform.Scale
 	if betweenWidthPlatform && betweenHeightPlatform && g.Ball.FlagPlatform == 0 {
 		g.Ball.FlagPlatform = 1
-		fmt.Println(g.Ball.FlagPlatform, "----", g.Ball.Y)
 		g.Ball.DirY = -g.Ball.DirY
 	}
 
@@ -57,56 +55,40 @@ func (g *Game) CollisionBrickBall() {
 		for j := range g.Brick[i] {
 			widthBrick := g.Brick[i][j].SizeW
 			heightBrick := g.Brick[i][j].SizeH
-			// top side of block
-			// touchTopBlock := g.Brick[i][j].Y == g.Ball.Y-g.Ball.Size || g.Brick[i][j].Y == g.Ball.Y-g.Ball.Size+1 || g.Brick[i][j].Y == g.Ball.Y-g.Ball.Size-1
+			fringe := 1 * g.Brick[i][j].Scale
+			betweenWidthBlockRight := g.Brick[i][j].X+widthBrick-fringe >= g.Ball.X && g.Brick[i][j].X+widthBrick <= g.Ball.X
+			betweenWidthBlockLeft := g.Brick[i][j].X >= g.Ball.X && g.Brick[i][j].X+fringe <= g.Ball.X
+			betweenHeightBlockTop := g.Brick[i][j].Y <= g.Ball.Y && g.Brick[i][j].Y+fringe >= g.Ball.Y
+			betweenHeightBlockBot := g.Brick[i][j].Y+heightBrick >= g.Ball.Y && g.Brick[i][j].Y+heightBrick-fringe <= g.Ball.Y
+			betweenHeight := g.Brick[i][j].Y >= g.Ball.Y && g.Brick[i][j].Y+heightBrick <= g.Ball.Y
+			betweenWidth := g.Brick[i][j].X <= g.Ball.X && g.Brick[i][j].X+widthBrick >= g.Ball.X
 
-			// down side of block
-			// touchBotBlock := g.Brick[i][j].Y+heightBrick == g.Ball.Y || g.Brick[i][j].Y+heightBrick == g.Ball.Y+1 || g.Brick[i][j].Y+heightBrick == g.Ball.Y-1
-
-			//left side of block
-			// touchLeftBlock := g.Brick[i][j].X == g.Ball.X+g.Ball.Size || g.Brick[i][j].X == g.Ball.X+g.Ball.Size+1 || g.Brick[i][j].X == g.Ball.X+g.Ball.Size-1
-
-			//right side of block
-			// touchRightBlock := g.Brick[i][j].X+widthBrick == g.Ball.X || g.Brick[i][j].X+widthBrick == g.Ball.X+1 || g.Brick[i][j].X+widthBrick == g.Ball.X-1
-
-			betweenWidthBlock := g.Brick[i][j].X <= g.Ball.X && g.Brick[i][j].X+widthBrick >= g.Ball.X
-			betweenHeightBlock := g.Brick[i][j].Y <= g.Ball.Y && g.Brick[i][j].Y+heightBrick >= g.Ball.Y
-
-			if betweenWidthBlock && betweenHeightBlock {
+			if betweenHeightBlockTop && betweenWidth {
 				g.Brick[i][j].X = -16 * 3
 				g.Brick[i][j].Y = -16 * 3
 				g.Brick[i][j].Appear = false
 				g.Ball.DirY = -g.Ball.DirY
+			}
+
+			if betweenHeightBlockBot && betweenWidth {
+				g.Brick[i][j].X = -16 * 3
+				g.Brick[i][j].Y = -16 * 3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirY = -g.Ball.DirY
+			}
+			if betweenWidthBlockLeft && betweenHeight {
+				g.Brick[i][j].X = -16 * 3
+				g.Brick[i][j].Y = -16 * 3
+				g.Brick[i][j].Appear = false
+				g.Ball.DirX = -g.Ball.DirX
+			}
+			if betweenWidthBlockRight && betweenHeight {
+				g.Brick[i][j].X = -16 * 3
+				g.Brick[i][j].Y = -16 * 3
+				g.Brick[i][j].Appear = false
 				g.Ball.DirX = -g.Ball.DirX
 			}
 
-			// if touchBotBlock && betweenWidthBlock {
-			// 	g.Brick[i][j].X = -16 * 3
-			// 	g.Brick[i][j].Y = -16 * 3
-			// 	g.Brick[i][j].Appear = false
-			// 	g.Ball.DirY = -g.Ball.DirY
-			// }
-
-			// if touchTopBlock && betweenWidthBlock {
-			// 	g.Brick[i][j].X = -16 * 3
-			// 	g.Brick[i][j].Y = -16 * 3
-			// 	g.Brick[i][j].Appear = false
-			// 	g.Ball.DirY = -g.Ball.DirY
-			// }
-
-			// if touchLeftBlock && betweenHeightBlock {
-			// 	g.Brick[i][j].X = -16 * 3
-			// 	g.Brick[i][j].Y = -16 * 3
-			// 	g.Brick[i][j].Appear = false
-			// 	g.Ball.DirX = -g.Ball.DirX
-			// }
-
-			// if touchRightBlock && betweenHeightBlock {
-			// 	g.Brick[i][j].X = -16 * 3
-			// 	g.Brick[i][j].Y = -16 * 3
-			// 	g.Brick[i][j].Appear = false
-			// 	g.Ball.DirX = -g.Ball.DirX
-			// }
 		}
 	}
 }
