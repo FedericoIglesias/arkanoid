@@ -1,4 +1,4 @@
-package game
+package background
 
 import (
 	img "arkanoid/internal/sprite"

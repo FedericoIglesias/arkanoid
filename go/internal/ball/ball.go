@@ -17,7 +17,7 @@ type Ball struct {
 	Sprite       *ebiten.Image
 	Scale        float64
 	Size         float64
-	FlagOut      int8
+	FlagOut      bool
 	FlagPlatform int8
 }
 
@@ -34,7 +34,7 @@ func NewBall(dirX int, dirY int) *Ball {
 		Sprite:       sprite, //ebiten.NewImageFromImage(sprite.SubImage(r)),
 		Scale:        Scale,
 		Size:         5 * Scale,
-		FlagOut:      0,
+		FlagOut:      false,
 		FlagPlatform: 0,
 	}
 }
@@ -61,7 +61,7 @@ func (b *Ball) Update() {
 		b.DirY = -b.DirY
 	}
 	if b.Y+b.HalfY >= global.SCREEN_HEIGHT {
-		b.FlagOut = 1
+		b.FlagOut = true
 	}
 	b.X += float64(b.DirX)
 	b.Y += float64(b.DirY)

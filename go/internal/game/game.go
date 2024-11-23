@@ -1,12 +1,13 @@
 package game
 
 import (
+	"arkanoid/internal/background"
 	"arkanoid/internal/ball"
 	"arkanoid/internal/brick"
 	"arkanoid/internal/global"
-	"arkanoid/internal/paused"
 	"arkanoid/internal/platform"
 	"arkanoid/internal/score"
+	"arkanoid/internal/sign"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -15,37 +16,56 @@ type Game struct {
 	Ball       ball.Ball
 	Brick      [][]*brick.Brick
 	Platform   platform.Platform
-	Background Background
-	Paused     paused.Paused
+	Background background.Background
+	Sign       sign.Sign
 	Score      score.Score
+}
+
+func NewGame() *Game {
+	return &Game{
+		Ball:       *ball.NewBall(2, 2),
+		Platform:   *platform.NewPlatform(),
+		Brick:      brick.CreateMatrixBricks(40, 80),
+		Background: *background.NewBackground(),
+		Sign:       *sign.NewPaused(),
+		Score:      *score.NewScore(),
+	}
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.DrawBkg(screen)
 	g.Platform.Draw(screen)
 	g.Score.Draw(screen)
-	g.CollisionPlatformBall()
 	for i := range g.Brick {
 		for j := range g.Brick[i] {
 			g.Brick[i][j].Draw(screen)
 		}
 	}
 	g.Ball.Draw(screen)
-	if g.Paused.Show == 1 {
-		g.Paused.Draw(screen)
+	if g.Sign.Show {
+		g.Sign.Draw(screen)
 	}
 }
 func (g *Game) Update() error {
-	g.Paused.Update()
-	if g.Paused.Show == 1 {
+	g.Sign.Update()
+	if g.Sign.Show {
+		if ebiten.IsKeyPressed(ebiten.KeyR) {
+			g.Ball = *ball.NewBall(2, 2)
+			g.Platform = *platform.NewPlatform()
+			g.Brick = brick.CreateMatrixBricks(40, 80)
+			g.Score = *score.NewScore()
+			g.Sign = *sign.NewPaused()
+		}
 		return nil
 	}
 	g.Platform.Update()
 	g.Ball.Update()
+	g.CollisionPlatformBall()
 	g.CollisionBrickBall()
-	// if g.Ball.FlagOut == 1 {
-	// panic("endGam")
-	// }
+	if g.Ball.FlagOut {
+		g.Sign.Show = true
+		g.Sign.Lossed = true
+	}
 	return nil
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
