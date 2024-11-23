@@ -6,6 +6,7 @@ import (
 	"arkanoid/internal/global"
 	"arkanoid/internal/paused"
 	"arkanoid/internal/platform"
+	"arkanoid/internal/score"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -16,11 +17,13 @@ type Game struct {
 	Platform   platform.Platform
 	Background Background
 	Paused     paused.Paused
+	Score      score.Score
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.DrawBkg(screen)
 	g.Platform.Draw(screen)
+	g.Score.Draw(screen)
 	g.CollisionPlatformBall()
 	for i := range g.Brick {
 		for j := range g.Brick[i] {
@@ -56,7 +59,6 @@ func (g *Game) CollisionPlatformBall() {
 		g.Ball.FlagPlatform = 1
 		g.Ball.DirY = -g.Ball.DirY
 	}
-
 }
 
 func (g *Game) CollisionBrickBall() {
@@ -71,33 +73,34 @@ func (g *Game) CollisionBrickBall() {
 			betweenHeightBlockBot := g.Brick[i][j].Y+heightBrick >= g.Ball.Y && g.Brick[i][j].Y+heightBrick-fringe <= g.Ball.Y
 			betweenHeight := g.Brick[i][j].Y >= g.Ball.Y && g.Brick[i][j].Y+heightBrick <= g.Ball.Y
 			betweenWidth := g.Brick[i][j].X <= g.Ball.X && g.Brick[i][j].X+widthBrick >= g.Ball.X
-
 			if betweenHeightBlockTop && betweenWidth {
 				g.Brick[i][j].X = -16 * 3
 				g.Brick[i][j].Y = -16 * 3
 				g.Brick[i][j].Appear = false
 				g.Ball.DirY = -g.Ball.DirY
+				g.Score.Update(g.Brick[i][j].Score)
 			}
-
 			if betweenHeightBlockBot && betweenWidth {
 				g.Brick[i][j].X = -16 * 3
 				g.Brick[i][j].Y = -16 * 3
 				g.Brick[i][j].Appear = false
 				g.Ball.DirY = -g.Ball.DirY
+				g.Score.Update(g.Brick[i][j].Score)
 			}
 			if betweenWidthBlockLeft && betweenHeight {
 				g.Brick[i][j].X = -16 * 3
 				g.Brick[i][j].Y = -16 * 3
 				g.Brick[i][j].Appear = false
 				g.Ball.DirX = -g.Ball.DirX
+				g.Score.Update(g.Brick[i][j].Score)
 			}
 			if betweenWidthBlockRight && betweenHeight {
 				g.Brick[i][j].X = -16 * 3
 				g.Brick[i][j].Y = -16 * 3
 				g.Brick[i][j].Appear = false
 				g.Ball.DirX = -g.Ball.DirX
+				g.Score.Update(g.Brick[i][j].Score)
 			}
-
 		}
 	}
 }
@@ -112,5 +115,4 @@ func (g *Game) DrawBkg(screen *ebiten.Image) {
 			g.Background.Draw(screen)
 		}
 	}
-
 }

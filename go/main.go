@@ -7,6 +7,7 @@ import (
 	"arkanoid/internal/global"
 	"arkanoid/internal/paused"
 	"arkanoid/internal/platform"
+	"arkanoid/internal/score"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -18,6 +19,7 @@ func main() {
 		Brick:      brick.CreateMatrixBricks(40, 80),
 		Background: *game.NewBackground(),
 		Paused:     *paused.NewPaused(),
+		Score:      *score.NewScore(),
 	}
 
 	ebiten.SetWindowSize(global.SCREEN_WIDTH, global.SCREEN_HEIGHT)

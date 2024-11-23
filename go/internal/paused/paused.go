@@ -22,11 +22,6 @@ type Paused struct {
 }
 
 var mplusFaceSource *text.GoTextFaceSource
-var rec = image.Rectangle{
-	Min: image.Point{0, 0},
-	Max: image.Point{X: global.SCREEN_WIDTH, Y: global.SCREEN_HEIGHT},
-}
-
 func init() {
 	s, err := text.NewGoTextFaceSource(bytes.NewReader(fonts.MPlus1pRegular_ttf))
 	if err != nil {
@@ -34,6 +29,11 @@ func init() {
 	}
 	mplusFaceSource = s
 }
+var rec = image.Rectangle{
+	Min: image.Point{0, 0},
+	Max: image.Point{X: global.SCREEN_WIDTH, Y: global.SCREEN_HEIGHT},
+}
+
 
 func NewPaused() *Paused {
 	return &Paused{
